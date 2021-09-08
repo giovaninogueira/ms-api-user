@@ -1,4 +1,4 @@
-import { IMessageRequest, IMessageResponse } from "../../repositories/messager-broker/imessager-broker.interface";
+import { IMessagerAccessRequest, IResponseAccessResponse } from "../../providers/messager-broker-access/implementations/imessager-broker-access.interface";
 import { CreateUserApplication } from "./create-user.application";
 
 export class CreateUserController {
@@ -9,7 +9,7 @@ export class CreateUserController {
      * @param req 
      * @returns 
      */
-    async handle(req: IMessageRequest): Promise<IMessageResponse> {
+    async handle(req: IMessagerAccessRequest): Promise<IResponseAccessResponse> {
         const result = await this.createUserApp.handle(req.body);
         return {
             code: 201,

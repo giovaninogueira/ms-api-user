@@ -3,7 +3,7 @@ export interface IMessagerAccess {
     message: any;
 }
 
-export interface IResponseAccess {
+export interface IResponseAccessResponse {
     code: number;
     response: any;
 }
@@ -47,19 +47,19 @@ export interface IMessagerBrokerAccess {
      * Send RPC
      * @param message 
      */
-    sendRPC(message: IMessagerAccess): Promise<IResponseAccess>;
+    sendRPC(message: IMessagerAccess): Promise<IResponseAccessResponse>;
 
     /**
      * Response RPC
      * @param objResponse 
      */
-    responseCallRPC(objResponse: { queue: string; replyTo: string, correlationId: string, response: IResponseAccess }): Promise<void>;
+    responseCallRPC(objResponse: { queue: string; replyTo: string, correlationId: string, response: IResponseAccessResponse }): Promise<void>;
 
     /**
      * Message Convert
      * @param message 
      */
-    messageConvert(message: any): IResponseAccess;
+    messageConvert(message: any): IResponseAccessResponse;
 
     /**
      * Message Request

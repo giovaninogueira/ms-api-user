@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 import { v4 as uuidv4 } from 'uuid';
-import { IMessagerAccess, IMessagerAccessRequest, IMessagerBrokerAccess, IResponseAccess } from "../imessager-broker-access.interface";
+import { IMessagerAccess, IMessagerAccessRequest, IMessagerBrokerAccess, IResponseAccessResponse } from "../imessager-broker-access.interface";
 
 export class RabbitMQ implements IMessagerBrokerAccess {
 
@@ -74,7 +74,7 @@ export class RabbitMQ implements IMessagerBrokerAccess {
      * Send RPC
      * @param message 
      */
-    async sendRPC(message: IMessagerAccess): Promise<IResponseAccess> {
+    async sendRPC(message: IMessagerAccess): Promise<IResponseAccessResponse> {
         const timeout = 5000;
 
         return new Promise(async (resolve, reject) => {
@@ -131,8 +131,8 @@ export class RabbitMQ implements IMessagerBrokerAccess {
      * @param message 
      * @returns 
      */
-    messageConvert(message: any): IResponseAccess {
-        const messageResponse: IResponseAccess = {
+    messageConvert(message: any): IResponseAccessResponse {
+        const messageResponse: IResponseAccessResponse = {
             code: 200,
             response: {
                 message: 'Ok'
@@ -183,7 +183,7 @@ export class RabbitMQ implements IMessagerBrokerAccess {
         queue: string,
         replyTo: string,
         correlationId: string,
-        response: IResponseAccess
+        response: IResponseAccessResponse
     }): Promise<void> {
         return this.connect()
             .then(channel => this.createQueue(channel, objResponse.queue))
