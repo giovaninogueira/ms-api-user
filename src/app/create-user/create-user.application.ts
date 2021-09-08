@@ -13,6 +13,7 @@ export class CreateUserApplication {
             queue: 'send-email-new-user',
             message: {
                 email: userSend.email,
+                name: userSend.name
             }
         });
         return true;
