@@ -1,6 +1,6 @@
 import { IRouterMessageBroker } from "./implementations/imessager-broker-access.interface";
 import { RabbitMQ } from "./implementations/rabbit-mq/rabbit-mq.provider";
-import { UserQueueRouter } from "./implementations/router/user-queue.router";
+import { UserQueueRouter } from "./router/user-queue.router";
 
 const listQueuesListen: Array<IRouterMessageBroker> = [
     new UserQueueRouter()
@@ -15,6 +15,5 @@ const app = {
         callback();
     }
 }
-
 
 export { app };

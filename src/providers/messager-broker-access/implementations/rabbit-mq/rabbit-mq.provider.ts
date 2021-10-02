@@ -1,5 +1,6 @@
 import amqp from "amqplib";
 import { v4 as uuidv4 } from 'uuid';
+import { ErroCustom } from "../../../../errors/error-custom";
 import { IMessagerAccess, IMessagerAccessRequest, IMessagerBrokerAccess, IResponseAccessResponse } from "../imessager-broker-access.interface";
 
 export class RabbitMQ implements IMessagerBrokerAccess {
@@ -24,8 +25,28 @@ export class RabbitMQ implements IMessagerBrokerAccess {
             .then(ch => {
                 ch.consume(queue, async (msg: any) => {
                     if (msg !== null) {
+                        let response = null;
                         const request = this.messageConvertRequest(msg);
-                        const response = await callback(request);
+                        try {
+                            response = await callback(request);
+                        } catch (err: any) {
+                            if (err instanceof ErroCustom) {
+                                const error = JSON.parse(err.message);
+                                response = {
+                                    code: error.code,
+                                    response: {
+                                        message: error.error
+                                    }
+                                }
+                            } else {
+                                response = {
+                                    code: 500,
+                                    response: {
+                                        message: 'Internal server error'
+                                    }
+                                }
+                            }
+                        }
                         await this.responseCallRPC({
                             queue: queue,
                             replyTo: msg.properties.replyTo,

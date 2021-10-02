@@ -2,7 +2,7 @@ import { IMessagerAccessRequest, IResponseAccessResponse } from "../../providers
 import { CreateUserApplication } from "./create-user.application";
 
 export class CreateUserController {
-    constructor(private readonly createUserApp: CreateUserApplication) {}
+    constructor(private readonly createUserApp: CreateUserApplication) { }
 
     /**
      * Handle
@@ -10,7 +10,7 @@ export class CreateUserController {
      * @returns 
      */
     async handle(req: IMessagerAccessRequest): Promise<IResponseAccessResponse> {
-        const result = await this.createUserApp.handle(req.body);
+        await this.createUserApp.execute(req.body);
         return {
             code: 201,
             response: {
